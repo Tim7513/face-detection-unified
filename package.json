@@ -1,0 +1,25 @@
+{
+  "name": "face-detection-app",
+  "version": "1.0.0",
+  "description": "Full-stack face detection app with React frontend and Node.js backend",
+  "main": "server/server.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm start",
+    "client": "cd client && npm start",
+    "build": "cd client && npm install && npm run build",
+    "start": "cd server && npm install && npm start",
+    "install-deps": "cd server && npm install && cd ../client && npm install",
+    "deploy": "npm run build && cd server && cp -r ../client/build/* public/"
+  },
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tim7513/face-detection-app.git"
+  },
+  "keywords": ["react", "nodejs", "face-detection", "clarifai"],
+  "author": "",
+  "license": "MIT"
+} 

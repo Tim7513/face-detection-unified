@@ -1,0 +1,21 @@
+{
+  "name": "face-detection-backend",
+  "version": "1.0.0",
+  "description": "Back-end Server for Face-Detection-App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tim7513/face-detection-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tim7513/face-detection-backend/issues"
+  },
+  "homepage": "https://github.com/Tim7513/face-detection-backend#readme"
+}
