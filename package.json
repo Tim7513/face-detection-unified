@@ -9,7 +9,7 @@
     "client": "cd client && npm start",
     "build": "npm run install-deps && cd client && npm run build && cd ../server && cp -r ../client/build/* public/",
     "start": "cd server && npm start",
-    "install-deps": "cd server && npm ci && cd ../client && npm ci",
+    "install-deps": "cd server && npm install && cd ../client && npm install",
     "clean-install": "rm -rf server/node_modules client/node_modules && npm run install-deps",
     "deploy": "npm run build"
   },
