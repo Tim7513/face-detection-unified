@@ -1,10 +1,19 @@
 const Clarifai = require('clarifai');
 
-const app = new Clarifai.App({
- apiKey: process.env.CLARIFAI_API_KEY
-});
+// Initialize Clarifai only if API key is available
+let app = null;
+if (process.env.CLARIFAI_API_KEY) {
+  app = new Clarifai.App({
+    apiKey: process.env.CLARIFAI_API_KEY
+  });
+}
 
 const handleApiCall = (req, res) => {
+  // Check if Clarifai is configured
+  if (!app) {
+    return res.status(400).json('Clarifai API key not configured. Please contact administrator.');
+  }
+
   // HEADS UP! Sometimes the Clarifai Models can be down or not working as they are constantly getting updated.
   // A good way to check if the model you are using is up, is to check them on the clarifai website. For example,
   // for the Face Detect Mode: https://www.clarifai.com/models/face-detection
@@ -23,7 +32,6 @@ const handleImage = (req, res, db) => {
   .increment('entries', 1)
   .returning('entries')
   .then(entries => {
-   
     res.json(entries[0].entries);
   })
   .catch(err => res.status(400).json('unable to get entries'))
