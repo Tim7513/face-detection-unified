@@ -6,7 +6,8 @@ class Register extends React.Component {
     this.state = {
       email: '',
       password: '',
-      name: ''
+      name: '',
+      error: ''
     }
   }
 
@@ -23,7 +24,14 @@ class Register extends React.Component {
   }
 
   onSubmitSignIn = () => {
-          fetch('/register', {
+    this.setState({error: ''}); // Clear previous errors
+    
+    if (!this.state.name || !this.state.email || !this.state.password) {
+      this.setState({error: 'Please fill in all fields'});
+      return;
+    }
+
+    fetch('/register', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -37,8 +45,14 @@ class Register extends React.Component {
         if (user.id) {
           this.props.loadUser(user)
           this.props.onRouteChange('home');
+        } else {
+          this.setState({error: user.message || 'Registration failed. Please try again.'});
         }
       })
+      .catch(err => {
+        console.log(err);
+        this.setState({error: 'Unable to connect to server. Please try again.'});
+      });
   }
 
   render() {
@@ -48,6 +62,11 @@ class Register extends React.Component {
           <div className="measure">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f1 fw6 ph0 mh0">Register</legend>
+              {this.state.error && (
+                <div className="pa2 mb3 bg-light-red dark-red br2">
+                  {this.state.error}
+                </div>
+              )}
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
                 <input

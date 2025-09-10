@@ -5,7 +5,8 @@ class Signin extends React.Component {
     super(props);
     this.state = {
       signInEmail: '',
-      signInPassword: ''
+      signInPassword: '',
+      error: ''
     }
   }
 
@@ -18,6 +19,13 @@ class Signin extends React.Component {
   }
 
   onSubmitSignIn = () => {
+    this.setState({error: ''}); // Clear previous errors
+    
+    if (!this.state.signInEmail || !this.state.signInPassword) {
+      this.setState({error: 'Please enter both email and password'});
+      return;
+    }
+
     fetch('/signin', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -31,8 +39,14 @@ class Signin extends React.Component {
         if (user.id) {
           this.props.loadUser(user)
           this.props.onRouteChange('home');
+        } else {
+          this.setState({error: user.message || 'Sign in failed. Please check your credentials.'});
         }
       })
+      .catch(err => {
+        console.log(err);
+        this.setState({error: 'Unable to connect to server. Please try again.'});
+      });
   }
 
   render() {
@@ -43,6 +57,11 @@ class Signin extends React.Component {
           <div className="measure">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f1 fw6 ph0 mh0">Sign In</legend>
+              {this.state.error && (
+                <div className="pa2 mb3 bg-light-red dark-red br2">
+                  {this.state.error}
+                </div>
+              )}
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                 <input
