@@ -7,10 +7,10 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "cd server && npm start",
     "client": "cd client && npm start",
-    "build": "cd client && npm install && npm run build",
-    "start": "cd server && npm install && npm start",
+    "build": "npm run install-deps && cd client && npm run build && cd ../server && cp -r ../client/build/* public/",
+    "start": "cd server && npm start",
     "install-deps": "cd server && npm install && cd ../client && npm install",
-    "deploy": "npm run build && cd server && cp -r ../client/build/* public/"
+    "deploy": "npm run build"
   },
   "dependencies": {
     "concurrently": "^7.6.0"
